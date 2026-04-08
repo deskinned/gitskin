@@ -1,0 +1,30 @@
+{
+  "name": "@deskinned/gitskin",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch --config build/vite.config.ts",
+    "build:chrome": "BUILD_TARGET=chrome vite build --config build/vite.config.ts",
+    "build:firefox": "BUILD_TARGET=firefox vite build --config build/vite.config.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "lint": "eslint src/ --ext .ts,.svelte && prettier --check .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.58.1",
+    "@typescript-eslint/parser": "^8.58.1",
+    "eslint": "^10.2.0",
+    "eslint-plugin-svelte": "^3.17.0",
+    "prettier": "^3.8.1",
+    "svelte": "^5.55.2",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.7",
+    "vitest": "^4.1.3",
+    "web-ext": "^10.1.0"
+  }
+}

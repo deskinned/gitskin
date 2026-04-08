@@ -1,0 +1,45 @@
+name: Extension Release
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build Chrome
+        run: pnpm run build:chrome
+
+      - name: Build Firefox
+        run: pnpm run build:firefox
+
+      - name: Package extensions
+        run: |
+          cd dist/chrome && zip -r ../../gitskin-chrome.zip . && cd ../..
+          cd dist/firefox && zip -r ../../gitskin-firefox.zip . && cd ../..
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            gitskin-chrome.zip
+            gitskin-firefox.zip
+
+      - name: Trigger mugshot rebuild
+        env:
+          GH_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          gh api repos/deskinned/mugshot/dispatches \
+            -f event_type=extension-released \
+            -f "client_payload[version]=$TAG_NAME"
