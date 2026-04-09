@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitest/config';
+import { resolve } from 'path';
 
 export default defineConfig({
   test: {
@@ -7,8 +8,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@shared': '/src/shared',
-      '@lib': '/src/lib',
+      '@shared': resolve(__dirname, 'src/shared'),
+      '@lib': resolve(__dirname, 'src/lib'),
     },
   },
 });
