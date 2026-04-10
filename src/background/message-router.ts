@@ -8,7 +8,7 @@ import type {
   CatalogResponse,
   AdapterResponse,
 } from '@shared/messages';
-import { getActiveTheme, setActiveTheme, clearActiveTheme, installTheme } from './theme-manager';
+import { getActiveTheme, setActiveTheme, clearActiveTheme, installTheme, getInstalledThemeIds } from './theme-manager';
 import * as fetcher from './adapter-fetcher';
 import * as cache from '@shared/cache';
 
@@ -68,6 +68,10 @@ async function handleMessage(message: GitskinMessage): Promise<MessageResponse> 
       const adapter = await cache.getAdapter(message.page);
       const data: AdapterResponse = { adapter: adapter ?? null };
       return { success: true, data };
+    }
+    case MessageType.GET_INSTALLED_THEMES: {
+      const ids = await getInstalledThemeIds();
+      return { success: true, data: ids };
     }
     case MessageType.EXTERNAL_INSTALL_THEME: {
       const theme = await fetcher.fetchTheme(message.themeId);

@@ -12,6 +12,7 @@ export const enum MessageType {
   INSTALL_THEME = 'INSTALL_THEME',
   EXTERNAL_INSTALL_THEME = 'EXTERNAL_INSTALL_THEME',
   GET_ADAPTER = 'GET_ADAPTER',
+  GET_INSTALLED_THEMES = 'GET_INSTALLED_THEMES',
 }
 
 export interface GetActiveThemeMessage {
@@ -62,6 +63,10 @@ export interface GetAdapterMessage {
   page: string;
 }
 
+export interface GetInstalledThemesMessage {
+  type: MessageType.GET_INSTALLED_THEMES;
+}
+
 export type GitskinMessage =
   | GetActiveThemeMessage
   | SetActiveThemeMessage
@@ -72,7 +77,8 @@ export type GitskinMessage =
   | RefreshAdaptersMessage
   | InstallThemeMessage
   | ExternalInstallThemeMessage
-  | GetAdapterMessage;
+  | GetAdapterMessage
+  | GetInstalledThemesMessage;
 
 export interface MessageResponse<T = unknown> {
   success: boolean;
