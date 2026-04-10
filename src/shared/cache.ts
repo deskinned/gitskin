@@ -25,8 +25,12 @@ function openDB(): Promise<IDBDatabase> {
         db.createObjectStore(STORES.meta);
       }
     };
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      resolve(request.result);
+    };
+    request.onerror = () => {
+      reject(new Error(request.error?.message ?? 'IndexedDB open failed'));
+    };
   });
 }
 
@@ -36,8 +40,12 @@ function dbGet<T>(store: string, key: string): Promise<T | null> {
       new Promise((resolve, reject) => {
         const tx = db.transaction(store, 'readonly');
         const req = tx.objectStore(store).get(key);
-        req.onsuccess = () => resolve((req.result as T | undefined) ?? null);
-        req.onerror = () => reject(req.error);
+        req.onsuccess = () => {
+          resolve((req.result as T | undefined) ?? null);
+        };
+        req.onerror = () => {
+          reject(new Error(req.error?.message ?? 'IndexedDB get failed'));
+        };
       }),
   );
 }
@@ -48,8 +56,12 @@ function dbPut(store: string, key: string, value: unknown): Promise<void> {
       new Promise((resolve, reject) => {
         const tx = db.transaction(store, 'readwrite');
         const req = tx.objectStore(store).put(value, key);
-        req.onsuccess = () => resolve();
-        req.onerror = () => reject(req.error);
+        req.onsuccess = () => {
+          resolve();
+        };
+        req.onerror = () => {
+          reject(new Error(req.error?.message ?? 'IndexedDB put failed'));
+        };
       }),
   );
 }
@@ -98,15 +110,16 @@ export function clearAll(): Promise<void> {
   return openDB().then(
     (db) =>
       new Promise((resolve, reject) => {
-        const tx = db.transaction(
-          [STORES.adapters, STORES.themes, STORES.meta],
-          'readwrite',
-        );
+        const tx = db.transaction([STORES.adapters, STORES.themes, STORES.meta], 'readwrite');
         tx.objectStore(STORES.adapters).clear();
         tx.objectStore(STORES.themes).clear();
         tx.objectStore(STORES.meta).clear();
-        tx.oncomplete = () => resolve();
-        tx.onerror = () => reject(tx.error);
+        tx.oncomplete = () => {
+          resolve();
+        };
+        tx.onerror = () => {
+          reject(new Error(tx.error?.message ?? 'IndexedDB clear failed'));
+        };
       }),
   );
 }

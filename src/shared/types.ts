@@ -82,3 +82,12 @@ export interface ResolutionResult {
   element: Element | null;
   passed: boolean;
 }
+
+export type StrategyResolver = (selector: string) => Element | null;
+
+export interface CompiledCSS {
+  fonts: string;
+  tokens: string;
+  components: string;
+  custom: string;
+}

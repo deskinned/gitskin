@@ -30,11 +30,11 @@ zero telemetry. zero paywall. zero fucks given about github's original design ch
 
 the extension intercepts github pages and injects CSS at three levels:
 
-| level | what | resilience |
-|-------|------|-----------|
-| **tokens** | overrides github's Primer CSS variables (their public design system API) | nearly unbreakable |
+| level          | what                                                                                                                       | resilience                                                                     |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **tokens**     | overrides github's Primer CSS variables (their public design system API)                                                   | nearly unbreakable                                                             |
 | **components** | targets abstract UI components (PRHeader, DiffView, CodeView, etc.) resolved at runtime via multi-strategy adapter cascade | resilient — falls back through ARIA → data-attr → structural → class selectors |
-| **custom CSS** | raw CSS you write, your responsibility | you break it, you fix it |
+| **custom CSS** | raw CSS you write, your responsibility                                                                                     | you break it, you fix it                                                       |
 
 adapters (the mapping from abstract components to actual DOM) are hot-loaded from [skinbank.gitsk.in](https://skinbank.gitsk.in) — no extension update needed when github decides to rearrange their furniture at 3am. the [biopsy](https://github.com/deskinned/biopsy) system crawls github's DOM every night while it sleeps and patches the adapters before you wake up.
 
@@ -45,6 +45,7 @@ adapters (the mapping from abstract components to actual DOM) are hot-loaded fro
 **Firefox:** [firefox AMO link coming soon]
 
 **Dev build:**
+
 ```bash
 git clone git@github.com:deskinned/gitskin.git
 cd gitskin
@@ -75,25 +76,25 @@ curl -fsSL https://gitsk.in/setup | sh
 ```yaml
 meta:
   id: midnight
-  name: "Midnight"
+  name: 'Midnight'
   author: yourgithubusername
-  version: "1.0.0"
-  description: "dark blue everything"
+  version: '1.0.0'
+  description: 'dark blue everything'
   base: dark
   tags: [dark, minimal, cool]
 
 tokens:
-  canvas.primary: "#0d1117"
-  canvas.secondary: "#161b22"
-  fg.primary: "#c9d1d9"
-  fg.muted: "#8b949e"
-  accent.primary: "#58a6ff"
-  border.default: "#30363d"
-  diff.added.bg: "#12261e"
-  diff.removed.bg: "#2d1315"
-  syntax.keyword: "#ff7b72"
-  syntax.string: "#a5d6ff"
-  syntax.comment: "#8b949e"
+  canvas.primary: '#0d1117'
+  canvas.secondary: '#161b22'
+  fg.primary: '#c9d1d9'
+  fg.muted: '#8b949e'
+  accent.primary: '#58a6ff'
+  border.default: '#30363d'
+  diff.added.bg: '#12261e'
+  diff.removed.bg: '#2d1315'
+  syntax.keyword: '#ff7b72'
+  syntax.string: '#a5d6ff'
+  syntax.comment: '#8b949e'
 ```
 
 that's a complete theme. 12 lines of tokens and every color on github changes. your move, github design team.
@@ -120,14 +121,14 @@ for full local dev across all deskinned repos (skinbank, site, worker), see [CLA
 
 gitskin is part of the [deskinned](https://github.com/deskinned) ecosystem:
 
-| repo | what |
-|------|------|
-| **gitskin** | the extension |
-| [skinbank](https://github.com/deskinned/skinbank) | adapters + themes + public API |
-| [deskinned.github.io](https://github.com/deskinned/deskinned.github.io) | website + marketplace at gitsk.in |
-| [biopsy](https://github.com/deskinned/biopsy) | automated DOM crawler + adapter maintenance |
-| [orderly](https://github.com/deskinned/orderly) | submission API at api.gitsk.in |
-| [mugshot](https://github.com/deskinned/mugshot) | screenshot Action for theme previews |
+| repo                                                                    | what                                        |
+| ----------------------------------------------------------------------- | ------------------------------------------- |
+| **gitskin**                                                             | the extension                               |
+| [skinbank](https://github.com/deskinned/skinbank)                       | adapters + themes + public API              |
+| [deskinned.github.io](https://github.com/deskinned/deskinned.github.io) | website + marketplace at gitsk.in           |
+| [biopsy](https://github.com/deskinned/biopsy)                           | automated DOM crawler + adapter maintenance |
+| [orderly](https://github.com/deskinned/orderly)                         | submission API at api.gitsk.in              |
+| [mugshot](https://github.com/deskinned/mugshot)                         | screenshot Action for theme previews        |
 
 ---
 

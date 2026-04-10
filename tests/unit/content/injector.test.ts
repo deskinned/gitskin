@@ -1,5 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { injectCSS, removeCSS, removeAllGitskinStyles, isInjected } from '../../../src/content/injector';
+import {
+  injectCSS,
+  removeCSS,
+  removeAllGitskinStyles,
+  isInjected,
+} from '../../../src/content/injector';
 
 beforeEach(() => {
   while (document.head.firstChild) {

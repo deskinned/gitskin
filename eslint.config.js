@@ -9,7 +9,10 @@ export default tseslint.config(
   {
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        projectService: {
+          allowDefaultProject: [],
+        },
+        extraFileExtensions: ['.svelte'],
         tsconfigRootDir: import.meta.dirname,
       },
     },

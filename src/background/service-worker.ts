@@ -8,7 +8,7 @@ initMessageRouter();
 chrome.runtime.onInstalled.addListener(() => {
   fetcher.refreshAdapters().catch(console.error);
 
-  chrome.alarms.create(ALARM_NAMES.adapterRefresh, {
+  void chrome.alarms.create(ALARM_NAMES.adapterRefresh, {
     periodInMinutes: ADAPTER_REFRESH_INTERVAL_MS / 60_000,
   });
 });

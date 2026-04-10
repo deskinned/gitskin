@@ -1,5 +1,5 @@
 //! Message type definitions for chrome.runtime messaging
-import type { Theme, PrimerMap, Catalog } from './types';
+import type { Theme, PrimerMap, Catalog, Adapter } from './types';
 
 export const enum MessageType {
   GET_ACTIVE_THEME = 'GET_ACTIVE_THEME',
@@ -11,6 +11,7 @@ export const enum MessageType {
   REFRESH_ADAPTERS = 'REFRESH_ADAPTERS',
   INSTALL_THEME = 'INSTALL_THEME',
   EXTERNAL_INSTALL_THEME = 'EXTERNAL_INSTALL_THEME',
+  GET_ADAPTER = 'GET_ADAPTER',
 }
 
 export interface GetActiveThemeMessage {
@@ -56,6 +57,11 @@ export interface ExternalInstallThemeMessage {
   themeId: string;
 }
 
+export interface GetAdapterMessage {
+  type: MessageType.GET_ADAPTER;
+  page: string;
+}
+
 export type GitskinMessage =
   | GetActiveThemeMessage
   | SetActiveThemeMessage
@@ -65,7 +71,8 @@ export type GitskinMessage =
   | GetCatalogMessage
   | RefreshAdaptersMessage
   | InstallThemeMessage
-  | ExternalInstallThemeMessage;
+  | ExternalInstallThemeMessage
+  | GetAdapterMessage;
 
 export interface MessageResponse<T = unknown> {
   success: boolean;
@@ -80,6 +87,10 @@ export interface ActiveThemeResponse {
 
 export interface CatalogResponse {
   catalog: Catalog;
+}
+
+export interface AdapterResponse {
+  adapter: Adapter | null;
 }
 
 export function sendMessage<T>(message: GitskinMessage): Promise<MessageResponse<T>> {

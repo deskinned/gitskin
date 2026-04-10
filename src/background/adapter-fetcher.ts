@@ -5,7 +5,7 @@ import * as cache from '@shared/cache';
 
 const etags = new Map<string, string>();
 
-async function conditionalFetch<T>(url: string): Promise<{ data: T; changed: boolean }> {
+async function conditionalFetch(url: string): Promise<{ data: unknown; changed: boolean }> {
   const headers: HeadersInit = {};
   const etag = etags.get(url);
   if (etag) {
@@ -15,7 +15,7 @@ async function conditionalFetch<T>(url: string): Promise<{ data: T; changed: boo
   const response = await fetch(url, { headers });
 
   if (response.status === 304) {
-    return { data: null as unknown as T, changed: false };
+    return { data: null, changed: false };
   }
 
   const newEtag = response.headers.get('ETag');
@@ -23,60 +23,65 @@ async function conditionalFetch<T>(url: string): Promise<{ data: T; changed: boo
     etags.set(url, newEtag);
   }
 
-  const data = (await response.json()) as T;
+  const data: unknown = await response.json();
   return { data, changed: true };
 }
 
 export async function fetchManifest(): Promise<Manifest> {
-  const { data, changed } = await conditionalFetch<Manifest>(MANIFEST_URL);
+  const { data, changed } = await conditionalFetch(MANIFEST_URL);
   if (!changed) {
     const cached = await cache.getManifest();
-    return cached!;
+    if (!cached) throw new Error('Manifest cache miss after 304');
+    return cached;
   }
-  await cache.putManifest(data);
-  return data;
+  await cache.putManifest(data as Manifest);
+  return data as Manifest;
 }
 
 export async function fetchPrimerMap(): Promise<PrimerMap> {
-  const { data, changed } = await conditionalFetch<PrimerMap>(PRIMER_MAP_URL);
+  const { data, changed } = await conditionalFetch(PRIMER_MAP_URL);
   if (!changed) {
     const cached = await cache.getPrimerMap();
-    return cached!;
+    if (!cached) throw new Error('PrimerMap cache miss after 304');
+    return cached;
   }
-  await cache.putPrimerMap(data);
-  return data;
+  await cache.putPrimerMap(data as PrimerMap);
+  return data as PrimerMap;
 }
 
 export async function fetchAdapter(name: string): Promise<Adapter> {
   const url = `${SKINBANK_API_URL}/adapters/${name}.json`;
-  const { data, changed } = await conditionalFetch<Adapter>(url);
+  const { data, changed } = await conditionalFetch(url);
   if (!changed) {
     const cached = await cache.getAdapter(name);
-    return cached!;
+    if (!cached) throw new Error(`Adapter "${name}" cache miss after 304`);
+    return cached;
   }
-  await cache.putAdapter(name, data);
-  return data;
+  await cache.putAdapter(name, data as Adapter);
+  return data as Adapter;
 }
 
 export async function fetchTheme(id: string): Promise<Theme> {
   const url = `${SKINBANK_API_URL}/themes/${id}.json`;
-  const { data, changed } = await conditionalFetch<Theme>(url);
+  const { data, changed } = await conditionalFetch(url);
   if (!changed) {
     const cached = await cache.getTheme(id);
-    return cached!;
+    if (!cached) throw new Error(`Theme "${id}" cache miss after 304`);
+    return cached;
   }
-  await cache.putTheme(id, data);
-  return data;
+  await cache.putTheme(id, data as Theme);
+  return data as Theme;
 }
 
 export async function fetchCatalog(): Promise<Catalog> {
-  const { data, changed } = await conditionalFetch<Catalog>(CATALOG_URL);
+  const { data, changed } = await conditionalFetch(CATALOG_URL);
   if (!changed) {
     const cached = await cache.getCatalog();
-    return cached!;
+    if (!cached) throw new Error('Catalog cache miss after 304');
+    return cached;
   }
-  await cache.putCatalog(data);
-  return data;
+  await cache.putCatalog(data as Catalog);
+  return data as Catalog;
 }
 
 export async function getPrimerMap(): Promise<PrimerMap> {
