@@ -62,4 +62,13 @@ describe('unwrapNesting', () => {
     expect(result).toContain('.btn:hover {');
     expect(result).toContain('opacity: 1;');
   });
+
+  it('does not replace & in declaration values', () => {
+    const css = '&::after {\n  content: "a & b";\n}';
+    const result = unwrapNesting(css, '.sel');
+
+    expect(result).toContain('.sel::after {');
+    expect(result).toContain('content: "a & b";');
+    expect(result).not.toContain('content: "a .sel b"');
+  });
 });

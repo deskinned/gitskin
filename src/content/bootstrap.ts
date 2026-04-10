@@ -55,15 +55,22 @@ async function applyTheme(): Promise<void> {
 
   const { theme, primerMap } = themeResponse.data;
 
-  detectVariant();
+  const variant = detectVariant();
 
   const pageType = detectPageType();
-  const [globalAdapter, pageAdapter] = await Promise.all([
-    requestAdapter('global'),
-    pageType !== 'global' ? requestAdapter(pageType) : Promise.resolve(null),
-  ]);
+  const adapterKeys = ['global', pageType !== 'global' ? pageType : null];
+  if (variant !== 'default') adapterKeys.push(`variant-${variant}`);
 
-  const merged = mergeAdapters(globalAdapter, pageAdapter);
+  const adapterResults = await Promise.all(
+    adapterKeys
+      .filter((k): k is string => k !== null)
+      .map((key) => requestAdapter(key)),
+  );
+  const globalAdapter = adapterResults[0] ?? null;
+  const pageAdapter = adapterResults[1] ?? null;
+  const variantAdapter = adapterResults[2] ?? null;
+
+  const merged = mergeAdapters(mergeAdapters(globalAdapter, pageAdapter), variantAdapter);
   let resolutions = new Map<string, ResolutionResult>();
   if (merged) {
     resolutions = resolveComponents(merged);

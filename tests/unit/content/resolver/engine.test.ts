@@ -139,6 +139,31 @@ describe('resolveComponents', () => {
   });
 
   it('falls back past sanity failure to next strategy that passes', () => {
+    setDOM('<div class="header">Header</div><header>Header</header>');
+
+    const adapter: Adapter = {
+      page: 'global',
+      components: {
+        AppHeader: {
+          description: 'Top nav',
+          strategies: [
+            { type: 'classname', selector: '.header', confidence: 0.95 },
+            { type: 'aria', selector: 'header', confidence: 0.5 },
+          ],
+          sanity: { tag: 'header' },
+        },
+      },
+    };
+
+    const results = resolveComponents(adapter);
+    const result = results.get('AppHeader');
+
+    expect(result!.passed).toBe(true);
+    expect(result!.strategyType).toBe('aria');
+    expect(result!.confidence).toBe(0.5);
+  });
+
+  it('fails when all strategies fail sanity check', () => {
     setDOM('<header>Header</header>');
 
     const adapter: Adapter = {

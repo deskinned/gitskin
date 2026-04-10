@@ -24,11 +24,12 @@ export function startObserver(callback: () => void): void {
 
   document.addEventListener('turbo:load', onTurboLoad);
 
-  observer = new MutationObserver(() => {
-    debounced();
-  });
-
-  observer.observe(document.body, { childList: true, subtree: false });
+  if (document.body) {
+    observer = new MutationObserver(() => {
+      debounced();
+    });
+    observer.observe(document.body, { childList: true, subtree: false });
+  }
 }
 
 export function stopObserver(): void {

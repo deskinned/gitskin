@@ -61,5 +61,12 @@ function countBraces(line: string): number {
 }
 
 function finishBlock(lines: string[], selector: string): string {
-  return lines.map((line) => line.replaceAll('&', selector)).join('\n');
+  return lines
+    .map((line, i) => {
+      if (i === 0 || line.trim() === '}' || line.trim().endsWith('{')) {
+        return line.replaceAll('&', selector);
+      }
+      return line;
+    })
+    .join('\n');
 }

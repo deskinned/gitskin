@@ -1,6 +1,7 @@
 //! Compiles theme tokens + component definitions into injectable CSS
 import type { Theme, PrimerMap, ResolutionResult, CompiledCSS } from '@shared/types';
 import { buildTokenCSS, buildComponentCSS } from '@lib/css-builder';
+import { typographyToCSS } from '@shared/tokens';
 import { unwrapNesting } from './nesting';
 
 export function compileThemeCSS(
@@ -18,26 +19,7 @@ export function compileThemeCSS(
 
 function buildFontsCSS(theme: Theme): string {
   if (!theme.typography) return '';
-
-  const imports: string[] = [];
-
-  if (theme.typography.fontFamily) {
-    const url = extractFontURL(theme.typography.fontFamily);
-    if (url) imports.push(`@import url('${url}');`);
-  }
-
-  if (theme.typography.monoFontFamily) {
-    const url = extractFontURL(theme.typography.monoFontFamily);
-    if (url) imports.push(`@import url('${url}');`);
-  }
-
-  return imports.join('\n');
-}
-
-function extractFontURL(_fontFamily: string): string | null {
-  // TODO: parse Google Fonts URL from font family string
-  void _fontFamily;
-  return null;
+  return typographyToCSS(theme.typography);
 }
 
 function buildComponentsCSS(
