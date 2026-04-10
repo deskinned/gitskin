@@ -18,7 +18,9 @@ function resolveComponent(
   strategies: AdapterStrategy[],
   sanity: Adapter['components'][string]['sanity'],
 ): ResolutionResult {
-  const sorted = [...strategies].sort((a, b) => b.confidence - a.confidence);
+  const sorted = strategies
+    .map((s, i) => ({ ...s, _idx: i }))
+    .sort((a, b) => b.confidence - a.confidence || a._idx - b._idx);
 
   for (const strategy of sorted) {
     const resolver = resolvers[strategy.type];

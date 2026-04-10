@@ -74,7 +74,9 @@ function mock304Response() {
 }
 
 function mockFetch(data: unknown, etag?: string) {
-  return vi.fn(() => Promise.resolve(mockResponse(data, etag))) as unknown as typeof globalThis.fetch;
+  return vi.fn(() =>
+    Promise.resolve(mockResponse(data, etag)),
+  ) as unknown as typeof globalThis.fetch;
 }
 
 beforeEach(async () => {
@@ -130,7 +132,8 @@ describe('fetchTheme', () => {
 
 describe('ETag conditional fetch', () => {
   it('sends If-None-Match on second fetch and returns cached on 304', async () => {
-    const fetchFn = vi.fn()
+    const fetchFn = vi
+      .fn()
       .mockResolvedValueOnce(mockResponse(testPrimerMap, '"etag-1"'))
       .mockResolvedValueOnce(mock304Response());
     vi.stubGlobal('fetch', fetchFn as unknown as typeof globalThis.fetch);

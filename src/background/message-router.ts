@@ -32,19 +32,13 @@ async function broadcastThemeChange(theme: Theme | null, primerMap: PrimerMap): 
 async function handleMessage(message: GitskinMessage): Promise<MessageResponse> {
   switch (message.type) {
     case MessageType.GET_ACTIVE_THEME: {
-      const [theme, primerMap] = await Promise.all([
-        getActiveTheme(),
-        fetcher.getPrimerMap(),
-      ]);
+      const [theme, primerMap] = await Promise.all([getActiveTheme(), fetcher.getPrimerMap()]);
       const data: ActiveThemeResponse = { theme, primerMap };
       return { success: true, data };
     }
     case MessageType.SET_ACTIVE_THEME: {
       await setActiveTheme(message.themeId);
-      const [theme, primerMap] = await Promise.all([
-        getActiveTheme(),
-        fetcher.getPrimerMap(),
-      ]);
+      const [theme, primerMap] = await Promise.all([getActiveTheme(), fetcher.getPrimerMap()]);
       await broadcastThemeChange(theme, primerMap);
       return { success: true };
     }

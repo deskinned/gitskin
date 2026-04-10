@@ -9,11 +9,7 @@ const primerMap: PrimerMap = {
   'border.default': '--color-border-default',
 };
 
-function makeResolution(
-  name: string,
-  selector: string,
-  passed: boolean,
-): ResolutionResult {
+function makeResolution(name: string, selector: string, passed: boolean): ResolutionResult {
   return {
     componentName: name,
     selector,
@@ -27,7 +23,14 @@ function makeResolution(
 describe('compileThemeCSS', () => {
   it('produces tokens CSS for Level 0 theme', () => {
     const theme: Theme = {
-      meta: { name: 'test', author: 'x', version: '1.0.0', description: 'Test', tags: ['dark'], level: 0 },
+      meta: {
+        name: 'test',
+        author: 'x',
+        version: '1.0.0',
+        description: 'Test',
+        tags: ['dark'],
+        level: 0,
+      },
       tokens: { 'canvas.default': '#000', 'fg.default': '#fff' },
     };
 
@@ -43,7 +46,14 @@ describe('compileThemeCSS', () => {
 
   it('produces scoped component CSS for resolved components', () => {
     const theme: Theme = {
-      meta: { name: 'test', author: 'x', version: '1.0.0', description: 'Test', tags: ['dark'], level: 2 },
+      meta: {
+        name: 'test',
+        author: 'x',
+        version: '1.0.0',
+        description: 'Test',
+        tags: ['dark'],
+        level: 2,
+      },
       tokens: { 'canvas.default': '#000' },
       components: {
         AppHeader: {
@@ -63,7 +73,14 @@ describe('compileThemeCSS', () => {
 
   it('skips unresolved components', () => {
     const theme: Theme = {
-      meta: { name: 'test', author: 'x', version: '1.0.0', description: 'Test', tags: ['dark'], level: 2 },
+      meta: {
+        name: 'test',
+        author: 'x',
+        version: '1.0.0',
+        description: 'Test',
+        tags: ['dark'],
+        level: 2,
+      },
       tokens: { 'canvas.default': '#000' },
       components: {
         AppHeader: {
@@ -82,7 +99,14 @@ describe('compileThemeCSS', () => {
 
   it('unwraps css blocks for Level 3 themes', () => {
     const theme: Theme = {
-      meta: { name: 'test', author: 'x', version: '1.0.0', description: 'Test', tags: ['dark'], level: 3 },
+      meta: {
+        name: 'test',
+        author: 'x',
+        version: '1.0.0',
+        description: 'Test',
+        tags: ['dark'],
+        level: 3,
+      },
       tokens: {},
       components: {
         AppHeader: {
@@ -103,7 +127,14 @@ describe('compileThemeCSS', () => {
 
   it('passes through customCSS for Level 4 themes', () => {
     const theme: Theme = {
-      meta: { name: 'test', author: 'x', version: '1.0.0', description: 'Test', tags: ['dark'], level: 4 },
+      meta: {
+        name: 'test',
+        author: 'x',
+        version: '1.0.0',
+        description: 'Test',
+        tags: ['dark'],
+        level: 4,
+      },
       tokens: {},
       customCSS: 'body::before { content: ""; }',
     };
@@ -115,7 +146,14 @@ describe('compileThemeCSS', () => {
 
   it('handles theme with both tokens and css in component', () => {
     const theme: Theme = {
-      meta: { name: 'test', author: 'x', version: '1.0.0', description: 'Test', tags: ['dark'], level: 3 },
+      meta: {
+        name: 'test',
+        author: 'x',
+        version: '1.0.0',
+        description: 'Test',
+        tags: ['dark'],
+        level: 3,
+      },
       tokens: { 'canvas.default': '#000' },
       components: {
         RepoHeader: {

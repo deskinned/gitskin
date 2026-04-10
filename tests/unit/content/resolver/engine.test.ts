@@ -71,9 +71,7 @@ describe('resolveComponents', () => {
       components: {
         AppHeader: {
           description: 'Top nav',
-          strategies: [
-            { type: 'aria', selector: '[role="banner"]', confidence: 0.95 },
-          ],
+          strategies: [{ type: 'aria', selector: '[role="banner"]', confidence: 0.95 }],
           sanity: { tag: 'header' },
         },
       },
@@ -94,9 +92,7 @@ describe('resolveComponents', () => {
       components: {
         AppHeader: {
           description: 'Top nav',
-          strategies: [
-            { type: 'aria', selector: 'header[role="banner"]', confidence: 0.95 },
-          ],
+          strategies: [{ type: 'aria', selector: 'header[role="banner"]', confidence: 0.95 }],
         },
       },
     };
@@ -117,16 +113,12 @@ describe('resolveComponents', () => {
       components: {
         AppHeader: {
           description: 'Top nav',
-          strategies: [
-            { type: 'aria', selector: 'header[role="banner"]', confidence: 0.95 },
-          ],
+          strategies: [{ type: 'aria', selector: 'header[role="banner"]', confidence: 0.95 }],
           sanity: { tag: 'header' },
         },
         GlobalSidebar: {
           description: 'Sidebar',
-          strategies: [
-            { type: 'aria', selector: 'nav[aria-label="Global"]', confidence: 0.9 },
-          ],
+          strategies: [{ type: 'aria', selector: 'nav[aria-label="Global"]', confidence: 0.9 }],
           sanity: { tag: 'nav' },
         },
       },
@@ -171,9 +163,7 @@ describe('resolveComponents', () => {
       components: {
         AppHeader: {
           description: 'Top nav',
-          strategies: [
-            { type: 'aria', selector: 'header', confidence: 0.95 },
-          ],
+          strategies: [{ type: 'aria', selector: 'header', confidence: 0.95 }],
           sanity: { mustContain: 'NotHere' },
         },
       },

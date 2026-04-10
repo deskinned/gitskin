@@ -62,9 +62,7 @@ async function applyTheme(): Promise<void> {
   if (variant !== 'default') adapterKeys.push(`variant-${variant}`);
 
   const adapterResults = await Promise.all(
-    adapterKeys
-      .filter((k): k is string => k !== null)
-      .map((key) => requestAdapter(key)),
+    adapterKeys.filter((k): k is string => k !== null).map((key) => requestAdapter(key)),
   );
   const globalAdapter = adapterResults[0] ?? null;
   const pageAdapter = adapterResults[1] ?? null;

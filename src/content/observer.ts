@@ -24,6 +24,7 @@ export function startObserver(callback: () => void): void {
 
   document.addEventListener('turbo:load', onTurboLoad);
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- document.body is null at document_start
   if (document.body) {
     observer = new MutationObserver(() => {
       debounced();
