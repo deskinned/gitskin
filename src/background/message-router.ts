@@ -6,9 +6,11 @@ import type {
   MessageResponse,
   ActiveThemeResponse,
   CatalogResponse,
+  AdapterResponse,
 } from '@shared/messages';
 import { getActiveTheme, setActiveTheme, clearActiveTheme, installTheme } from './theme-manager';
 import * as fetcher from './adapter-fetcher';
+import * as cache from '@shared/cache';
 
 async function broadcastThemeChange(theme: Theme | null, primerMap: PrimerMap): Promise<void> {
   const tabs = await chrome.tabs.query({ url: 'https://github.com/*' });
@@ -67,6 +69,11 @@ async function handleMessage(message: GitskinMessage): Promise<MessageResponse> 
     case MessageType.REFRESH_ADAPTERS: {
       await fetcher.refreshAdapters();
       return { success: true };
+    }
+    case MessageType.GET_ADAPTER: {
+      const adapter = await cache.getAdapter(message.page);
+      const data: AdapterResponse = { adapter: adapter ?? null };
+      return { success: true, data };
     }
     case MessageType.EXTERNAL_INSTALL_THEME: {
       const theme = await fetcher.fetchTheme(message.themeId);
