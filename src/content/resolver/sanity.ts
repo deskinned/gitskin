@@ -8,7 +8,7 @@ export function passSanityCheck(element: Element, sanity: SanityCheck): boolean 
     return false;
   }
 
-  const text = element.textContent ?? '';
+  const text = element.textContent || '';
 
   if (sanity.mustContain && !text.includes(sanity.mustContain)) {
     return false;

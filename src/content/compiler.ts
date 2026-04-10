@@ -35,6 +35,8 @@ function buildFontsCSS(theme: Theme): string {
 }
 
 function extractFontURL(_fontFamily: string): string | null {
+  // TODO: parse Google Fonts URL from font family string
+  void _fontFamily;
   return null;
 }
 

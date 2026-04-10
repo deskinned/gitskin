@@ -1,6 +1,6 @@
 //! Content script entry point — fingerprint, resolve, compile, inject, observe
 import { MessageType, sendMessage } from '@shared/messages';
-import type { ActiveThemeResponse, AdapterResponse, ThemeChangedMessage } from '@shared/messages';
+import type { ActiveThemeResponse, AdapterResponse, GitskinMessage } from '@shared/messages';
 import type { Adapter, ResolutionResult } from '@shared/types';
 import {
   FONTS_STYLE_ID,
@@ -96,7 +96,7 @@ async function applyTheme(): Promise<void> {
   }
 }
 
-chrome.runtime.onMessage.addListener((message: ThemeChangedMessage) => {
+chrome.runtime.onMessage.addListener((message: GitskinMessage) => {
   if (message.type === MessageType.THEME_CHANGED) {
     applyTheme().catch(console.error);
   }
